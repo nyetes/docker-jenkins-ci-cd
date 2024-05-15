@@ -42,8 +42,14 @@ clone_repository() {
 # Create Dockerfile for Apache and Nginx
 create_dockerfile() {
     echo "Creating Dockerfile..."
-    echo "FROM php:7.4-apache" > Dockerfile
+    echo "# Use the official PHP image with Apache" > Dockerfile
+    echo "FROM php:7.4-apache" >> Dockerfile
+    echo "" >> Dockerfile
+    echo "# Copy the contents of the php-hello-world directory into the container's web server directory" >> Dockerfile
     echo "COPY . /var/www/html" >> Dockerfile
+    echo "" >> Dockerfile
+    echo "# Set the ServerName directive to suppress Apache warnings" >> Dockerfile
+    echo "RUN echo \"ServerName localhost\" >> /etc/apache2/apache2.conf" >> Dockerfile
     echo "" >> Dockerfile
     echo "RUN apt-get update && apt-get install -y nginx \\" >> Dockerfile
     echo "    && rm -rf /var/lib/apt/lists/* \\" >> Dockerfile
